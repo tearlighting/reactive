@@ -20,17 +20,32 @@ let state = reactive({
 //   //   console.log(n[1].a)
 // })
 
-effect(
-  () => {
+// effect(
+//   () => {
+//     state.a
+//     state.b
+//     console.log("收集依赖")
+//   },
+//   {
+//     callback() {
+//       console.log("变化了")
+//     },
+//   }
+// )
+// state.a = 2
+// state.b = 1
+//嵌套按收集顺序执行
+effect(() => {
+  console.log(1)
+
+  effect(() => {
     state.a
-    state.b
-    console.log("收集依赖")
-  },
-  {
-    callback() {
-      console.log("变化了")
-    },
-  }
-)
+    console.log(2)
+    effect(() => {
+      state.a
+      console.log(3)
+    })
+  })
+  state.a
+})
 state.a = 2
-state.b = 1
